@@ -49,7 +49,7 @@ __RCSID("$NetBSD: unvis.c,v 1.30 2009/02/11 13:51:59 christos Exp $");
 __weak_alias(strunvis,_strunvis)
 #endif
 
-#if !HAVE_VIS
+#ifndef HAVE_VIS
 /*
  * decode driven by state machine
  */

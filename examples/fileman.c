@@ -16,6 +16,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <time.h>
 
 /* GNU readline
 #include <readline/readline.h>
@@ -25,7 +26,7 @@
 
 void * xmalloc (size_t size);
 void too_dangerous (char *caller);
-void initialize_readline ();
+void initialize_readline (void);
 int execute_line (char *line);
 int valid_argument (char *caller, char *arg);
 
@@ -69,8 +70,9 @@ COMMAND commands[] = {
 };
 
 /* Forward declarations. */
-char *stripwhite ();
-COMMAND *find_command ();
+char *stripwhite (char *);
+COMMAND *find_command (char *);
+char *dupstr (char *);
 
 /* The name of this program, as taken from argv[0]. */
 char *progname;
@@ -221,7 +223,7 @@ char **fileman_completion(const char *, int, int);
    complete on command names if this is the first word in the line, or
    on filenames if not. */
 void
-initialize_readline ()
+initialize_readline (void)
 {
    /* Allow conditional parsing of the ~/.inputrc file. */
    rl_readline_name = "FileMan";
@@ -275,7 +277,7 @@ command_generator (text, state)
 
    /* Return the next name which partially matches from the
       command list. */
-   while (name = commands[list_index].name)
+   while ((name = commands[list_index].name))
    {
       list_index++;
 
