@@ -74,7 +74,7 @@ __weak_alias(svis,_svis)
 __weak_alias(vis,_vis)
 #endif
 
-#if !HAVE_VIS || !HAVE_SVIS
+#if !defined(HAVE_VIS) || !defined(HAVE_SVIS)
 #include <ctype.h>
 #include <limits.h>
 #include <stdio.h>
@@ -343,7 +343,7 @@ strsvisx(char *dst, const char *csrc, size_t len, int flag, const char *extra)
 }
 #endif
 
-#if !HAVE_VIS
+#ifndef HAVE_VIS
 /*
  * vis - visually encode characters
  */

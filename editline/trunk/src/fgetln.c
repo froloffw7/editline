@@ -33,7 +33,7 @@
 #include "nbtool_config.h"
 #endif
 
-#if !HAVE_FGETLN
+#ifndef HAVE_FGETLN
 #include <config.h>
 #include <stdlib.h>
 #ifndef HAVE_NBTOOL_CONFIG_H
