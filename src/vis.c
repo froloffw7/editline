@@ -66,12 +66,12 @@ __RCSID("$NetBSD: vis.c,v 1.40 2009/02/11 13:52:28 christos Exp $");
 #include <stdlib.h>
 
 #ifdef __weak_alias
-__weak_alias(strsvis,_strsvis)
-__weak_alias(strsvisx,_strsvisx)
-__weak_alias(strvis,_strvis)
-__weak_alias(strvisx,_strvisx)
-__weak_alias(svis,_svis)
-__weak_alias(vis,_vis)
+__weak_alias(strsvis,_strsvis);
+__weak_alias(strsvisx,_strsvisx);
+__weak_alias(strvis,_strvis);
+__weak_alias(strvisx,_strvisx);
+__weak_alias(svis,_svis);
+__weak_alias(vis,_vis);
 #endif
 
 #if !defined(HAVE_VIS) || !defined(HAVE_SVIS)
