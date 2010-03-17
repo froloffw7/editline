@@ -46,7 +46,7 @@ __RCSID("$NetBSD: unvis.c,v 1.30 2009/02/11 13:51:59 christos Exp $");
 #include <vis.h>
 
 #ifdef __weak_alias
-__weak_alias(strunvis,_strunvis)
+__weak_alias(strunvis,_strunvis);
 #endif
 
 #ifndef HAVE_VIS
