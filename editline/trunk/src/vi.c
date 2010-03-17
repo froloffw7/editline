@@ -1014,8 +1014,16 @@ vi_histedit(EditLine *el, int c)
 	if (fd < 0)
 		return CC_ERROR;
 	cp = el->el_line.buffer;
-	write(fd, cp, (size_t)(el->el_line.lastchar - cp));
-	write(fd, "\n", 1);
+	if (write(fd, cp, (size_t)(el->el_line.lastchar - cp)) < 0) {
+		close(fd);
+		unlink(tempfile);
+		return CC_ERROR;
+	}
+	if (write(fd, "\n", 1) < 0) {
+		close(fd);
+		unlink(tempfile);
+		return CC_ERROR;
+	}
 	pid = fork();
 	switch (pid) {
 	case -1:

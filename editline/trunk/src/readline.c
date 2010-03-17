@@ -1271,7 +1271,8 @@ history_truncate_file (const char *filename, int nlines)
 	}
 	fflush(fp);
 	if((off = ftello(fp)) > 0)
-		(void)ftruncate(fileno(fp), off);
+		if (ftruncate(fileno(fp), off) < 0)
+			goto out3;
 out3:
 	fclose(tp);
 out2:
