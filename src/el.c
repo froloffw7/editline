@@ -499,7 +499,6 @@ el_source(EditLine *el, const char *fname)
 	char *ptr;
 	char path[MAXPATHLEN];
 
-	fp = NULL;
 	if (fname == NULL) {
 		static const char elpath[] = "/.editrc";
 
@@ -515,8 +514,7 @@ el_source(EditLine *el, const char *fname)
 			return (-1);
 		fname = path;
 	}
-	if (fp == NULL)
-		fp = fopen(fname, "r");
+	fp = fopen(fname, "r");
 	if (fp == NULL)
 		return (-1);
 
