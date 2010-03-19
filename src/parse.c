@@ -254,10 +254,10 @@ parse__string(char *out, const char *in)
 protected int
 parse_cmd(EditLine *el, const char *cmd)
 {
-	el_bindings_t *b;
-
-	for (b = el->el_map.help; b->name != NULL; b++)
-		if (strcmp(b->name, cmd) == 0)
-			return (b->func);
+	el_bindings_t *bp, *ep;
+	ep = &el->el_map.help[el->el_map.nfunc];
+	for (bp = el->el_map.help; bp < ep; bp++)
+		if (strcmp(bp->name, cmd) == 0)
+			return (bp->func);
 	return (-1);
 }
