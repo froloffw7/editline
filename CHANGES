@@ -1,0 +1,226 @@
+2006-11-24 : Christos Zoulas <christos@netbsd.org>
+	Bring in fixes from NetBSD tree:
+	* Don't reset the macro strings each time we enter el_gets(), otherwise
+	  el_push() is unusable programmatically.
+	* The previous commit removed too much and forgot to reset the
+	  history event number. From Kouichirou Hiratsuka, many thanks!
+	* Delete-previous-char and delete-next-char without an argument are
+	  not supposed to modify the yank buffer in Emacs.  Make it so.
+	* Don't use non-standard uint or u_int.
+	* Print the actual eofc, instead of ^D\b\b.
+	  Change internal character decoding to prevent buffer oveflows.
+	* Spelling mistakes and comment errors (from FreeBSD via Stefan
+	  Farfeleder; many thanks)
+	* Add more readline functions, enough for gdb-6.5
+	* Make el_get varyadic, and implement EL_GETTC.
+	* XXX: the EL_SETTC api will change in the future.
+	* PR/31012: Barry Naujok: libedit el_get with EL_EDITOR op does
+	  not work. Fixed as suggested.
+	* PR/23486: Andreas Gustafsson: gdb no longer works with emacs
+	  - make sure that we keep previous contents of the buffer in
+	    unbuffered mode.
+	  - when turning editing on and off keep tty consistent.
+	* Use (unsigned char) cast to sanitise arguments to ctype functions.
+	* Fix a load of international alphabet problems with isxxx() and
+	  toupper() Change isspace(*char_ptr) to isspace(*char_ptr & 0xff)
+	  so that the correct piece of memory is looked at for the bit mask.
+	  gcc optimises out the '& 0xff' (on i386 at least).
+	  Fixes problems found by gcc when the splurious (int) cast is removed
+	  from the #defines in ctype.h
+	* Fix memory leak found by valgrind (Julien Torres)
+	* Don't forget to initialize h_del; from  Julien Torres.
+	* PR/30747: David N. Williams: libedit is missing remove_history()
+	  Added, please test.
+	* PR/26785: Jess Thrysoee: libedit - H_NEXT and H_PREV shifts cursor
+	  on failure
+	* make sure that we round up to 1K.
+	* PR/26725: Sergey S. Kostyliov: Typo in libedit, possible buffer
+	  overflow in src/lib/libedit/history.c:history_save()
+	* fix debugging printf format.
+	* Fix two more help iterators. Thanks Stefan Farfeleder!
+	* Don't add an extra { NULL, 0, NULL } element to the help array.
+	  Instead keep it always the same size as the function array for
+	  consistency. Reported in FreeBSD PR 82381, but fixed differently.
+	* Update for recent parse__escape() prototype change
+	* PR/25694: Luke Mewburn: Don't abuse unconstify'ing a string and
+	  writing to it, because you'll core dump. Also remove extra const
+	  that gives pain to the irix compiler.
+	* On a fatal error, we want to stop processing the macro buffers.
+	* Add missing second argument to another call of ch_reset().
+	* Make sure we flush after we prepare when we are unbuffered
+	  otherwise the prompt will not appear immediately.
+	* PR/34062: Tanaka Akira: rl_deprep_term_function is NULL in libedit.
+	  Default to rl_deprep_terminal as suggested; do the same for
+	  rl_prep_term_function
+	* remove if/free block checking known condition
+	* Coverity CID 2743: Not really a memory leak, but make it obvious
+	  that we always free tmp.
+	* Coverity CID 1666: Plug memory leak.
+	* Coverity CID 1667: Plug memory leak
+	* Coverity CID 1662: Memory leak.
+	* use the tty chars for reprint and eof instead of hard-coded ^R and ^D
+	* PR/32817: Magnus Svensson: write_history and read_history returncode
+	  is not readline compatible.
+	* Partial rl_getc_function support from Jess Thrysoee.
+	* PR/30500: Paul Shupak: Inconsistent definition of tilde_expand().
+	  Provide a layer of indirection between the readline compatibility
+	  functions and our internal implementation, so that we have the
+	  freedom to change the function signature.
+	* Bug reported from Martin Dietze:
+	    The place to change the completion_append_character is
+	    usually somewhere in the `rl_completion_entry_function'
+	    callback which is where one usually can distinguish between
+	    file- or dir-like entries to append a slash for dirs etc.
+	    This does no longer work since `fn_complete()' takes the
+	    `append_character' as argument before the callback is executed,
+	    so that changes to the variable `rl_completion_append_character'
+	    have in fact no effect for the current completion.
+	  Fix by adding a function that returns the
+	  rl_completion_append_character, when it gets passed in a filename
+	  in readline emulation.
+	* Use the correct type for the stored callback function
+	* Sync the alternative readline interface with reality:
+	    + the rl_callback_handler_install takes a pointer to a void function
+	      which has one char * argument (it's called that way in the
+	      readline emulation source, otherwise there's no way to pass the
+	      line buffer to the function which processes the line when EOL is
+	      encountered)
+	    + provide a prototype for that function signature and use it
+	  Makes the callback readline interface work now.
+	* Separate out the filename completion functions from the readline()
+	  code. Pass in loads of parameters instead of relying on shed-loads
+	  of global variables to modify the behaviour. The filename completion
+	  code can now be enabled by code that uses el_gets(). (eg /bin/sh)
+	* check for pwd != NULL, fix a missed getpwnam.
+	* PR/29958: Peter Bex: add rl_variable_bind and
+	  rl_attempted_completion_over
+	* use getpwent_r
+	* Always update the position variables before the map function is
+	  called.  From Rob Rodgers, thanks!
+	* set UNBUFFERED again after you do the line callback so that the
+	  new line gets refreshed.
+	* cut out the middle-man and use el_insertstr() directly.
+	* Refresh bug reported by Julien Torres:
+	    going from:
+		activate -verbose
+	    to:
+		reset -activation
+	    results in:
+		reset -activationverbose"
+	    instead of:
+		reset -activation
+	  This is because we choose to insert "reset -" before the current line,
+	  and the delete "e -" and insert "ion" in the appropriate place. The
+	  cleareol code did not handle this case properly; we now cleareol to
+	  the maximum number of characters of the first difference, the second
+          difference and the difference in line length.
+	* Make EM_DELETE_PREV_CHAR behave like ED_DELETE_PREV_CHAR in
+	  incremental search. From Gerry Swislow.
+	* Coverity CID 1668: Plug memory leak.
+	* Coverity CID 806: Prevent NULL deref
+	* fix memory leak; thanks to Logan Gabriel
+	* Coverity CID 597: remove dead code.
+	* Coverity CID 1216: Prevent negative index use.
+	* __weakref__ attribute can not be applied to anything when inside
+	  function scope, so, move the extern of get_alias_text outside
+	  vi_alias().  fixes build problems with GCC 4.1-20061021.
+	* change __weak_extern to __weak_reference so that gcc4 works.
+	* Don't save the el->el_line.cursor over a cv_insert call and use it
+	  later because it might change. From Stefan Farfedeler.
+	* Don't delete the current line in vi mode when typing 'yy'.
+	  From Stefan Farfeleder.
+	* Terminate the arglist with a NULL instead of 0.  (Shuts up gcc4.x)
+
+2003-11-02 : Christos Zoulas <christos@netbsd.org>
+	Bring in fixes from NetBSD tree:
+	* eliminate advertising clause from copyright
+	* bug fix in the resize buffer case
+	* make el_push allocate space for the macro string
+	* add some functions from readline 4.0
+	  [needed EL_UNBUFFERED, EL_PREP_TERM]
+	* empty buffer kill does not do anything.
+	* fix history builtin argument parsing
+	* consistent malloc/free/strdup
+	* parse M- string
+	* handle ^<nonalpha>
+	* fix readline emulation history parsing
+	* fix incremental search
+	* add the ability to set a termios character from setty
+	
+2003-03-10 : Christos Zoulas <christos@netbsd.org>
+	* Fix order of weak_extern
+	* Don't hard-code the path for awk
+	* Eliminate one more u_int32_t
+
+2003-03-09 : Christos Zoulas <christos@netbsd.org>
+	* More fixes from the NetBSD tree
+	  - unique history
+	  - The posix 'sh' specification defines vi-mode editing quite tightly.
+	    The netbsd libedit code (used by sh to do this) was missing several
+	    features, there were also minor errors in others.
+
+	    Compare netbsd sh to the definition available from:
+	    http://www.opengroup.org/onlinepubs/007904975/utilities/sh.html
+	    In particular the following were not supported:
+		    U - undo all changes to line
+		    | - goto column
+		    Y - yank to end of line
+		    y - yank
+		    # - comment out current line
+		    @ - take input from shell alias [1]
+		    G - goto numbered line in history buffer
+		    v - edit history line with vi
+		    _ - append word from last input line
+		    . - redo last command
+	    Other minor changes have also been made.
+
+	    [1] This needs the shell to define an appropriate routine to
+	    return the text of the alias.  There is no requirement that
+	    such a function exist.
+
+2003-03-09 : Michael Haardt <michael@moria.de>
+        * Fix configure.in for autoconf 2.57
+        * Fix never closed file descriptor after completion
+        * Changes to compile with Solaris 9
+        * Changes to compile static library on HP-UX 10.20 (dynamic fails)
+        * Optional unique history feature backported from editline 1.5
+        * Remove config.cache during distclean
+
+2002-02-25 : Christos Zoulas <christos@netbsd.org>
+	* Bring in constification fixes from NetBSD tree.
+	* Use NetBSD's vis, fgetln
+
+2002-02-10 : Jason Evans <jasone@freebsd.org>
+	* Makefile.in : Append "" arguments to for loops, to avoid syntax errors
+          with some shells that occur if there are no arguments to the for
+          loops.
+
+2002-02-09 : Jason Evans <jasone@freebsd.org>
+	* Install man pages in @prefix@/man/, rather than @prefix@/share/man.
+
+	* Fix the Darwin -install_name S_LDFLAGS argument to default to a prefix
+          of /usr/local if --prefix is not specified.
+
+2002-02-05 : Jason Evans <jasone@freebsd.org>
+	* Convert to using an autoconf-generated config.h, rather than passing
+	  -D_HAVE_<foo>=1 definitions on the command line.  Include sys.h in
+	  config.h, and include config.h in .c files rather than sys.h.
+
+	* Mangle function names for implementations in the np directory in order
+          to avoid namespace collisions with other code that may provide copies
+          of the same unimplemented functions.  For example:
+
+		#define	fgetln libedit_fgetln
+
+2002-02-03 : Jason Evans <jasone@freebsd.org>
+	* Add autoconf infrastructure, plus a generic Makefile that works with
+          at least BSD make, GNU make and Sun make.
+
+	* Port and/or test on FreeBSD 4.5, FreeBSD-current, NetBSD 1.5 (sparc64
+          and arm32), Apple OS X 10.1.2, Solaris 2.6, and Red Hat Linux 2.6.
+          Add the np directory, which contains implementations of non-portable
+          functions.
+
+	* Add the LIBEDIT_MAJOR and LIBEDIT_MINOR macros to histedit.h, since
+          there is otherwise no straightforward method of programmatically
+          detecting the library version.
