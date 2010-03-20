@@ -65,7 +65,7 @@ TCSRCS = @TCSRCS@
 .SUFFIXES :
 .SUFFIXES : .c .o .o_a .o_s
 
-all :  lib_a lib_s
+all :  lib_a
 
 lib_a : $(LIB_A)
 lib_s : $(LIB_S)
