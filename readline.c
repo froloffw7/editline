@@ -42,7 +42,6 @@ __RCSID("$NetBSD: readline.c,v 1.70 2006/11/24 00:01:17 christos Exp $");
 #include <stdio.h>
 #include <dirent.h>
 #include <string.h>
-#include <pwd.h>
 #include <ctype.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -1426,40 +1425,6 @@ filename_completion_function(const char *name, int state)
 {
 	return fn_filename_completion_function(name, state);
 }
-
-/*
- * a completion generator for usernames; returns _first_ username
- * which starts with supplied text
- * text contains a partial username preceded by random character
- * (usually '~'); state is ignored
- * it's callers responsibility to free returned value
- */
-char *
-username_completion_function(const char *text, int state)
-{
-	struct passwd *pwd, pwres;
-	char pwbuf[1024];
-
-	if (text[0] == '\0')
-		return (NULL);
-
-	if (*text == '~')
-		text++;
-
-	if (state == 0)
-		setpwent();
-
-	while (getpwent_r(&pwres, pwbuf, sizeof(pwbuf), &pwd) == 0
-	    && pwd != NULL && text[0] == pwd->pw_name[0]
-	    && strcmp(text, pwd->pw_name) == 0);
-
-	if (pwd == NULL) {
-		endpwent();
-		return (NULL);
-	}
-	return (strdup(pwd->pw_name));
-}
-
 
 /*
  * el-compatible wrapper to send TSTP on ^Z
