@@ -60,7 +60,7 @@ __weak_alias(svis,_svis)
 __weak_alias(vis,_vis)
 #endif
 
-#if !HAVE_VIS_H
+#ifndef HAVE_VIS_H
 #include <ctype.h>
 #include <limits.h>
 #include <stdio.h>
