@@ -1157,7 +1157,7 @@ map_print_some_keys(EditLine *el, el_action_t *map, int first, int last)
 	lastbuf[1] = 0;
 	if (map[first] == ED_UNASSIGNED) {
 		if (first == last) {
-			(void) key__decode_str(firstbuf, unparsbuf, 
+			(void) key__decode_str(firstbuf, unparsbuf,
 			    sizeof(unparsbuf), STRQQ);
 			(void) fprintf(el->el_outfile,
 			    "%-15s->  is undefined\n", unparsbuf);
@@ -1168,14 +1168,14 @@ map_print_some_keys(EditLine *el, el_action_t *map, int first, int last)
 	for (bp = el->el_map.help; bp < ep; bp++) {
 		if (bp->func == map[first]) {
 			if (first == last) {
-				(void) key__decode_str(firstbuf, unparsbuf, 
+				(void) key__decode_str(firstbuf, unparsbuf,
 				    sizeof(unparsbuf), STRQQ);
 				(void) fprintf(el->el_outfile, "%-15s->  %s\n",
 				    unparsbuf, bp->name);
 			} else {
-				(void) key__decode_str(firstbuf, unparsbuf, 
+				(void) key__decode_str(firstbuf, unparsbuf,
 				    sizeof(unparsbuf), STRQQ);
-				(void) key__decode_str(lastbuf, extrabuf, 
+				(void) key__decode_str(lastbuf, extrabuf,
 				    sizeof(extrabuf), STRQQ);
 				(void) fprintf(el->el_outfile,
 				    "%-4s to %-7s->  %s\n",
@@ -1186,14 +1186,14 @@ map_print_some_keys(EditLine *el, el_action_t *map, int first, int last)
 	}
 #ifdef MAP_DEBUG
 	if (map == el->el_map.key) {
-		(void) key__decode_str(firstbuf, unparsbuf, 
+		(void) key__decode_str(firstbuf, unparsbuf,
 		    sizeof(unparsbuf), STRQQ);
 		(void) fprintf(el->el_outfile,
 		    "BUG!!! %s isn't bound to anything.\n", unparsbuf);
 		(void) fprintf(el->el_outfile, "el->el_map.key[%d] == %d\n",
 		    first, el->el_map.key[first]);
 	} else {
-		(void) key__decode_str(firstbuf, unparsbuf, 
+		(void) key__decode_str(firstbuf, unparsbuf,
 		    sizeof(unparsbuf), STRQQ);
 		(void) fprintf(el->el_outfile,
 		    "BUG!!! %s isn't bound to anything.\n", unparsbuf);

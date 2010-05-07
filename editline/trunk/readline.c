@@ -303,7 +303,7 @@ rl_initialize(void)
 	    "ReadLine compatible suspend function",
 	    _el_rl_tstp);
 	el_set(e, EL_BIND, "^Z", "rl_tstp", NULL);
-		
+
 	/* read settings from configuration file */
 	el_source(e, NULL);
 
@@ -1638,7 +1638,7 @@ rl_callback_read_char()
 	}
 }
 
-void 
+void
 rl_callback_handler_install (const char *prompt, VCPFunction *linefunc)
 {
 	if (e == NULL) {
@@ -1649,9 +1649,9 @@ rl_callback_handler_install (const char *prompt, VCPFunction *linefunc)
 	rl_prompt = prompt ? strdup(strchr(prompt, *prompt)) : NULL;
 	rl_linefunc = linefunc;
 	el_set(e, EL_UNBUFFERED, 1);
-}   
+}
 
-void 
+void
 rl_callback_handler_remove(void)
 {
 	el_set(e, EL_UNBUFFERED, 0);

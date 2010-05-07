@@ -1,6 +1,6 @@
-dnl 
+dnl
 dnl Process this file with autoconf to produce a configure script.
-dnl 
+dnl
 AC_INIT(Makefile.in)
 
 dnl If CFLAGS isn't defined and using gcc, set CFLAGS to something reasonable.
@@ -135,10 +135,10 @@ else
   CFLAGS="$CFLAGS -O"
 fi
 
-dnl 
+dnl
 dnl File lists.  This is done here instead of in the Makefile in order to avoid
 dnl the need for conditionals.
-dnl 
+dnl
 
 dnl .c files.
 ACSRCS="common.c emacs.c vi.c"

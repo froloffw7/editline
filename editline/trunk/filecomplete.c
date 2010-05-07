@@ -438,7 +438,7 @@ fn_complete(EditLine *el,
 		    (int)(cur_off - len), cur_off);
 	} else
 		matches = 0;
-	if (!attempted_completion_function || 
+	if (!attempted_completion_function ||
 	    (over != NULL && !*over && !matches))
 		matches = completion_matches(temp, complet_func);
 
@@ -468,7 +468,7 @@ fn_complete(EditLine *el,
 			 * it, unless we do filename completion and the
 			 * object is a directory.
 			 */
-			el_insertstr(el, (*append_char_function)(matches[0])); 
+			el_insertstr(el, (*append_char_function)(matches[0]));
 		} else if (what_to_do == '!') {
     display_matches:
 			/*
@@ -482,7 +482,7 @@ fn_complete(EditLine *el,
 					maxlen = match_len;
 			}
 			matches_num = i - 1;
-				
+
 			/* newline to get on next line from command line */
 			(void)fprintf(el->el_outfile, "\n");
 

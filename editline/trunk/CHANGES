@@ -146,7 +146,7 @@
 	* fix readline emulation history parsing
 	* fix incremental search
 	* add the ability to set a termios character from setty
-	
+
 2003-03-10 : Christos Zoulas <christos@netbsd.org>
 	* Fix order of weak_extern
 	* Don't hard-code the path for awk

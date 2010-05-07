@@ -57,7 +57,7 @@
 #  define __END_DECLS
 # endif
 #endif
- 
+
 #ifndef public
 # define public		/* Externally visible functions/variables */
 #endif

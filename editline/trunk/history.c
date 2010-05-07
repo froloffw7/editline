@@ -391,7 +391,7 @@ history_def_del(ptr_t p, HistEvent *ev __attribute__((__unused__)),
  */
 /* ARGSUSED */
 private void
-history_def_delete(history_t *h, 
+history_def_delete(history_t *h,
 		   HistEvent *ev __attribute__((__unused__)), hentry_t *hp)
 {
 	HistEventPrivate *evp = (void *)&hp->ev;
@@ -446,7 +446,7 @@ history_def_enter(ptr_t p, HistEvent *ev, const char *str)
 
 	if ((h->flags & H_UNIQUE) != 0 && h->list.next != &h->list &&
 	    strcmp(h->list.next->ev.str, str) == 0)
-	    return (0); 
+	    return (0);
 
 	if (history_def_insert(h, ev, str) == -1)
 		return (-1);	/* error, keep error message */
