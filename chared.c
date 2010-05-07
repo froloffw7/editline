@@ -570,7 +570,7 @@ ch_enlargebufs(el, addlen)
 
 	/* zero the newly added memory, leave old data in */
 	(void) memset(&newbuffer[sz], 0, newsz - sz);
-	    
+
 	oldbuf = el->el_line.buffer;
 
 	el->el_line.buffer = newbuffer;
@@ -616,7 +616,7 @@ ch_enlargebufs(el, addlen)
 	el->el_chared.c_redo.lim = newbuffer +
 			(el->el_chared.c_redo.lim - el->el_chared.c_redo.buf);
 	el->el_chared.c_redo.buf = newbuffer;
-	
+
 	if (!hist_enlargebuf(el, sz, newsz))
 		return 0;
 

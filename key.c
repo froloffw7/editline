@@ -583,7 +583,7 @@ key_kprint(EditLine *el, const char *key, key_value_t *val, int ntype)
 		case XK_STR:
 		case XK_EXE:
 			(void) key__decode_str(val->str, unparsbuf,
-			    sizeof(unparsbuf), 
+			    sizeof(unparsbuf),
 			    ntype == XK_STR ? "\"\"" : "[]");
 			(void) fprintf(el->el_outfile, fmt, key, unparsbuf);
 			break;
