@@ -167,7 +167,7 @@ clean :
 	rm -f $(TCSRCS:.c=.o) $(TEST)
 
 distclean : clean
-	rm -f config.log config.status config.cache config.h Makefile
+	rm -f config.log config.status config.cache config.h makelist Makefile
 
 #
 # Internal targets and rules.

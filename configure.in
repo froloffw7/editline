@@ -18,6 +18,7 @@ AC_SUBST(A_CFLAGS)
 S_CFLAGS="-fPIC -DPIC"
 AC_SUBST(S_CFLAGS)
 AC_PROG_CPP
+AC_PROG_AWK
 dnl Must do this now, otherwise it is only done for NetBSD (see 'case' below)
 
 dnl Platform-specific settings.  The ABI can probably be determined
@@ -261,4 +262,4 @@ AC_SUBST(TCSRCS)
 
 AC_CONFIG_HEADER(config.h)
 AH_BOTTOM([#include "sys.h"])
-AC_OUTPUT(Makefile)
+AC_OUTPUT(Makefile makelist)
