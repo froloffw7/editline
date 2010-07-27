@@ -61,14 +61,14 @@ esac
 
 AC_PROG_INSTALL
 AC_PROG_RANLIB
-AC_PATH_PROG(AR, ar, , $PATH)
+AC_PATH_PROGS(AR, ar gar, , $PATH)
 
 dnl Search for termcap access routines in termcap, tinfo, curses, and ncurses.
-AC_CHECK_LIB(termcap, tgetent, , \
-  AC_CHECK_LIB(tinfo, tgetent, , \
-    AC_CHECK_LIB(curses, tgetent, , \
-      AC_CHECK_LIB(ncurses, tgetent, , \
-        AC_MSG_ERROR(termcap support not found)))))
+AC_CHECK_LIB([termcap], [tgetent], , \
+  [AC_CHECK_LIB([tinfo], [tgetent], , \
+    [AC_CHECK_LIB([curses], [tgetent], , \
+      [AC_CHECK_LIB([ncurses], [tgetent], , \
+        [AC_MSG_ERROR(termcap support not found)])])])])
 
 dnl Use termcap.h if it exists; otherwise we need both term.h and [n]curses.h.
 AC_CHECK_HEADERS(termcap.h term.h)
@@ -260,4 +260,5 @@ AC_SUBST(TEST)
 AC_SUBST(TCSRCS)
 
 AC_CONFIG_HEADER(config.h)
+AH_BOTTOM([#include "sys.h"])
 AC_OUTPUT(Makefile)
