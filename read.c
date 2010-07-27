@@ -283,6 +283,8 @@ read_getcmd(EditLine *el, el_action_t *cmdnum, char *ch)
 
 /* read_char():
  *	Read a character from the tty.
+ *	XXX This routine is the default, but what you are actually looking for
+ *	is in main/asterisk.c, in ast_el_read_char(). XXX
  */
 private int
 read_char(EditLine *el, char *cp)
